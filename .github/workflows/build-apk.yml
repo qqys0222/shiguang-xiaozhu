@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -18,7 +18,7 @@ jobs:
       - uses: android-actions/setup-android@v3
       - run: npm install
       - run: npm run build
-      - name: Setup Android project
+      - name: Setup Android
         run: rm -rf android && npx cap add android
       - name: Build APK
         run: cd android && chmod +x gradlew && ./gradlew assembleDebug
