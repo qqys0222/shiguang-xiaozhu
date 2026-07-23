@@ -12,7 +12,10 @@ function formatDate(date: Date) {
 }
 
 function getDateStr(date: Date) {
-  return date.toISOString().slice(0, 10)
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
 }
 
 export default function RecordPage() {
@@ -125,7 +128,10 @@ export default function RecordPage() {
     <div className="page">
       <div className="banner-card">
         <div className="banner-text">📋 记录了一天？一键生成精美当日日志</div>
-        <div className="banner-actions">
+        <div className="banner-actions" style={{ flexWrap: 'wrap' }}>
+          {currentDate !== todayStr && (
+            <button className="btn btn-sm btn-primary" onClick={() => setCurrentDate(todayStr)}>📍 今天</button>
+          )}
           <button className="btn btn-sm" onClick={() => navigateToDate(-1)}>查看昨天</button>
           <button className="btn btn-sm btn-primary" onClick={() => navigate('/log')}>查看日志</button>
         </div>
@@ -142,7 +148,12 @@ export default function RecordPage() {
       </div>
 
       <div className="card">
-        <div className="card-title">📅 {formatDate(new Date(currentDate))}</div>
+        <div className="card-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>📅 {formatDate(new Date(currentDate))}</span>
+          {currentDate !== todayStr && (
+            <button className="btn btn-sm btn-primary" onClick={() => setCurrentDate(todayStr)}>📍 今天</button>
+          )}
+        </div>
         <div className="info-card">
           <div className="info-item">
             <label>☀️ 天气</label>
