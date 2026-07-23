@@ -8,7 +8,7 @@ type Period = 'week' | 'month' | 'season' | 'year'
 
 function getPeriodRange(period: Period): { start: string; end: string } {
   const now = new Date()
-  const end = now.toISOString().slice(0, 10)
+  const end = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   let start: Date
   switch (period) {
     case 'week': {
@@ -29,7 +29,10 @@ function getPeriodRange(period: Period): { start: string; end: string } {
       start = new Date(now.getFullYear(), 0, 1)
       break
   }
-  return { start: start.toISOString().slice(0, 10), end }
+  const sy = start.getFullYear()
+  const sm = String(start.getMonth() + 1).padStart(2, '0')
+  const sd = String(start.getDate()).padStart(2, '0')
+  return { start: `${sy}-${sm}-${sd}`, end }
 }
 
 function generateAnalysis(records: JournalRecord[], _dailyEntries: DailyEntry[], period: Period): string[] {
@@ -376,7 +379,7 @@ export default function SummaryPage() {
                 <button className="btn btn-sm btn-primary" onClick={async () => {
                   const { addRecord } = useStore.getState()
                   await addRecord({
-                    date: new Date().toISOString().slice(0, 10),
+                    date: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
                     category: '日记',
                     content: genContent,
                     images: [],
