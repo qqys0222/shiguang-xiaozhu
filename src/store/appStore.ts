@@ -157,10 +157,11 @@ export const useStore = create<AppState>((set, get) => ({
   generateMockData: async () => {
     const today = new Date()
     const mockRecords: JournalRecord[] = []
+    const toDateStr = (dt: Date) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`
     for (let i = 30; i >= 0; i--) {
       const d = new Date(today)
       d.setDate(d.getDate() - i)
-      const dateStr = d.toISOString().slice(0, 10)
+      const dateStr = toDateStr(d)
       const cats: Category[] = ['工作记录', '学习记录', '阅读记录', '运动记录', '生活记录', '今日睡眠', '今日感悟', '今日感恩', '日记']
       const numRecords = Math.floor(Math.random() * 3) + 1
       for (let j = 0; j < numRecords; j++) {
@@ -181,7 +182,7 @@ export const useStore = create<AppState>((set, get) => ({
     for (let i = 30; i >= 0; i--) {
       const d = new Date(today)
       d.setDate(d.getDate() - i)
-      const dateStr = d.toISOString().slice(0, 10)
+      const dateStr = toDateStr(d)
       const entry: DailyEntry = {
         date: dateStr,
         weather: ['晴', '多云', '雨', '晴', '晴'][Math.floor(Math.random() * 5)],
@@ -194,9 +195,9 @@ export const useStore = create<AppState>((set, get) => ({
 
     // Create mock plans
     const mockPlans: Plan[] = [
-      { category: '阅读记录', title: '本月阅读计划', description: '每月阅读3本书', targetCount: 3, targetUnit: '本', targetPeriod: 'monthly', startDate: new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10), status: 'active', createdAt: today.toISOString() },
-      { category: '运动记录', title: '每周运动计划', description: '每周运动3次', targetCount: 3, targetUnit: '次', targetPeriod: 'weekly', startDate: new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10), status: 'active', createdAt: today.toISOString() },
-      { category: '学习记录', title: '每日学习计划', description: '每天学习1小时', targetCount: 1, targetUnit: '小时', targetPeriod: 'daily', startDate: new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10), status: 'active', createdAt: today.toISOString() },
+      { category: '阅读记录', title: '本月阅读计划', description: '每月阅读3本书', targetCount: 3, targetUnit: '本', targetPeriod: 'monthly', startDate: toDateStr(new Date(today.getFullYear(), today.getMonth(), 1)), status: 'active', createdAt: today.toISOString() },
+      { category: '运动记录', title: '每周运动计划', description: '每周运动3次', targetCount: 3, targetUnit: '次', targetPeriod: 'weekly', startDate: toDateStr(new Date(today.getFullYear(), today.getMonth(), 1)), status: 'active', createdAt: today.toISOString() },
+      { category: '学习记录', title: '每日学习计划', description: '每天学习1小时', targetCount: 1, targetUnit: '小时', targetPeriod: 'daily', startDate: toDateStr(new Date(today.getFullYear(), today.getMonth(), 1)), status: 'active', createdAt: today.toISOString() },
     ]
     await db.plans.bulkAdd(mockPlans)
     await get().loadAll()
