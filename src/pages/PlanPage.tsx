@@ -77,7 +77,7 @@ export default function PlanPage() {
       targetCount: Number(formTarget),
       targetUnit: formUnit,
       targetPeriod: formPeriod,
-      startDate: new Date().toISOString().slice(0, 10),
+      startDate: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
       endDate: formEndDate || undefined,
       status: 'active' as PlanStatus,
       createdAt: new Date().toISOString(),
@@ -92,7 +92,7 @@ export default function PlanPage() {
 
   const handleToggleComplete = async (plan: Plan) => {
     if (plan.status === 'active') {
-      await updatePlan(plan.id!, { status: 'completed', endDate: new Date().toISOString().slice(0, 10) })
+      await updatePlan(plan.id!, { status: 'completed', endDate: `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}` })
     } else {
       await updatePlan(plan.id!, { status: 'active', endDate: undefined })
     }
