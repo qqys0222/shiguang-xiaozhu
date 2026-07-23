@@ -18,6 +18,7 @@ export default function SettingsPage() {
   const [showClearConfirm, setShowClearConfirm] = useState(false)
   const [showImportConfirm, setShowImportConfirm] = useState(false)
   const [importText, setImportText] = useState('')
+  const todayStr = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`
 
   const [quickCat, setQuickCat] = useState<Category>('工作记录')
   const [quickText, setQuickText] = useState('')
@@ -44,14 +45,14 @@ export default function SettingsPage() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `时光小筑备份_${new Date().toISOString().slice(0, 10)}.json`
+    a.download = `时光小筑备份_${todayStr}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
 
   const handleExportText = async () => {
     const { records: allRecords } = useStore.getState()
-    let text = `时光小筑数据导出 - ${new Date().toISOString().slice(0, 10)}\n${'='.repeat(40)}\n\n`
+    let text = `时光小筑数据导出 - ${todayStr}\n${'='.repeat(40)}\n\n`
     const byDate: Record<string, any[]> = {}
     allRecords.forEach(r => {
       if (!byDate[r.date]) byDate[r.date] = []
@@ -68,7 +69,7 @@ export default function SettingsPage() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `时光小筑_${new Date().toISOString().slice(0, 10)}.txt`
+    a.download = `时光小筑_${todayStr}.txt`
     a.click()
     URL.revokeObjectURL(url)
   }
