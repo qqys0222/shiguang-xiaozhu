@@ -122,7 +122,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 8px 18px;
+  padding: 10px 20px;
+  min-height: 40px;       /* Larger touch target for mobile */
   border: none;
   border-radius: var(--radius-sm);
   font-size: 14px;
@@ -132,9 +133,16 @@ body {
   white-space: nowrap;
   background: var(--chip-bg);
   color: var(--text);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn:active { transform: scale(0.96); }
+.btn-sm {
+  padding: 6px 14px;
+  min-height: 34px;
+  font-size: 13px;
+}
 
 .btn-primary {
   background: var(--primary);
@@ -142,11 +150,6 @@ body {
 }
 
 .btn-primary:active { background: var(--primary-dark); }
-
-.btn-sm {
-  padding: 5px 12px;
-  font-size: 12px;
-}
 
 .btn-danger {
   background: var(--danger);
@@ -189,11 +192,13 @@ input, textarea, select {
   padding: 10px 14px;
   border: 1px solid var(--input-border);
   border-radius: var(--radius-sm);
-  font-size: 14px;
+  font-size: 16px;  /* 16px prevents iOS zoom on focus */
   background: var(--input-bg);
   color: var(--text);
   outline: none;
   transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 input:focus, textarea:focus, select:focus {
@@ -203,6 +208,14 @@ input:focus, textarea:focus, select:focus {
 textarea {
   resize: vertical;
   min-height: 80px;
+  touch-action: manipulation;
+}
+
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238c8c8c' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
 }
 
 /* Bottom Nav */
@@ -451,10 +464,12 @@ textarea {
   border-radius: var(--radius) var(--radius) 0 0;
   width: 100%;
   max-width: 480px;
-  max-height: 85vh;
+  max-height: 90vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 20px 16px calc(20px + var(--safe-bottom));
   animation: slideUp 0.3s ease;
+  -webkit-overflow-scrolling: touch;
 }
 
 @keyframes slideUp {
