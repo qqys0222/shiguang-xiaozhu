@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { Category, JournalRecord, SpecialFields, MealSource, QuickItem } from '../types'
 import { QUICK_ITEMS } from '../types'
 import { useStore } from '../store/appStore'
@@ -17,8 +17,15 @@ export default function AddEditModal({ category, record, onSave, onClose }: Prop
   const fileRef = useRef<HTMLInputElement>(null)
   const quickItems = useStore(s => s.getQuickItemsByCategory(category))
   const presetQuickItems = QUICK_ITEMS[category] || []
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const isEdit = !!record
+
+  // Auto-focus textarea on mobile
+  useEffect(() => {
+    const timer = setTimeout(() => textareaRef.current?.focus(), 500)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleAddImage = () => {
     fileRef.current?.click()
@@ -268,10 +275,12 @@ export default function AddEditModal({ category, record, onSave, onClose }: Prop
           <div>
             <label style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 6, display: 'block' }}>📝 记录内容</label>
             <textarea
+              ref={textareaRef}
               value={content}
               onChange={e => setContent(e.target.value)}
               placeholder="写下此刻的想法..."
               rows={5}
+              autoComplete="off"
             />
           </div>
 
